@@ -45,7 +45,7 @@ function spotifySong(querySong) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data);
+        console.log(data.tracks.items);
     });
 }
 function movie(movieEntry) {
@@ -62,21 +62,26 @@ function movie(movieEntry) {
         if (!error && response.statusCode === 200) {
             console.log("here");
             // Parse the body of the site and recover just the imdbRating
-            
-            console.log("The movie's title is: " + JSON.stringify(JSON.parse(body),null,2));
-            
-             console.log("The movie's title is: " + JSON.parse(body).Title);
-             console.log("The year the movie came out is: " + JSON.parse(body).Year);
-             console.log("The movie's imdb rating is: " + JSON.parse(body).imdbRating);
-            // var arrLength = JSON.parse(body).Ratings.length;
-            // for (i = 0; i < arrLength; i++){
-            //     if (JSON.parse(body).Ratings.Source === "Rotten Tomatoes"){
-            //         console.log("The Rotten Tomatoes value is: " + JSON.parse(body).Ratings[Source])
-            //     }
-            // }
-            // console.log(arrLength);
-            //console.log("The movie's Rotten Tomatoes rating is: " + JSON.parse(body).Ratings[Source]['Rotten Tomatoes']);
 
+            console.log("The movie's title is: " + JSON.stringify(JSON.parse(body), null, 2));
+
+            console.log("The movie's title is: " + JSON.parse(body).Title);
+            console.log("The year the movie came out is: " + JSON.parse(body).Year);
+            console.log("The movie's imdb rating is: " + JSON.parse(body).imdbRating);
+            var arrLength = JSON.parse(body).Ratings.length;
+            for (i = 0; i < arrLength; i++) {
+                var rating = JSON.parse(body).Ratings[i];
+                if (rating.Source === "Rotten Tomatoes") 
+                {
+                    console.log("The Rotten Tomatoes value is: " + JSON.stringify(JSON.parse(body).Ratings[i]));
+
+                }
+
+            }
+            console.log("The country is: " + JSON.parse(body).Country);
+            console.log("The language of the movie is: " + JSON.parse(body).Language);
+            console.log("The plot of the movie is : " + JSON.parse(body).Plot);
+            console.log("The actors in the movie are: " + JSON.parse(body).Actors);
 
         }
 
