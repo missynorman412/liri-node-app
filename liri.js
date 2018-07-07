@@ -2,6 +2,7 @@ require("dotenv").config();
 var keys = require("./keys");
 var Spotify = require("node-spotify-api");
 var Twitter = require("twitter");
+var fs = require('fs');
 var spotify = new Spotify(keys.spotify);
 var client = new Twitter(keys.twitter);
 var action = process.argv[2];
@@ -23,6 +24,8 @@ switch (action) {
         //console.log(movieEntry);
         movie(movieEntry);
         break;
+    case "do-what-it-says":
+        doWhatItSays();
 
 }
 
@@ -60,7 +63,6 @@ function movie(movieEntry) {
     request("http://www.omdbapi.com/?t=" + movieEntry + "&apikey=trilogy", function (error, response, body) {
         // If the request is successful (i.e. if the response status code is 200)
         if (!error && response.statusCode === 200) {
-            console.log("here");
             // Parse the body of the site and recover just the imdbRating
 
             console.log("The movie's title is: " + JSON.stringify(JSON.parse(body), null, 2));
@@ -88,5 +90,16 @@ function movie(movieEntry) {
 
     });
 
+}
+
+function doWhatItSays(){
+    //using fs node package takes text inside of random.txt and use it to call one of liri's commands.
+    //open the file
+    fs.readFile('random.txt', 'utf8', function (err,data) {
+        if (err) {
+          return console.log(err);
+        }
+        console.log(data);
+      });
 }
 
