@@ -13,7 +13,10 @@ switch (action) {
         break;
     case "spotify-this-song":
         var querySong = process.argv[3];
-        console.log('here');
+        if (querySong === undefined) {
+            var querySong = "The Sign";
+            
+        }
         spotifySong(querySong);
         break;
     case "movie-this":
@@ -43,14 +46,26 @@ function printTweets() {
 }
 
 function spotifySong(querySong) {
-    //console.log(querySong);
+    console.log(querySong);
     spotify.search({ type: 'track', query: querySong }, function (err, data) {
         if (err) {
             return console.log('Error occurred: ' + err);
         }
-        console.log(data.tracks.items);
-    });
+        var songInfo = data.tracks.items;
+        for (var i = 0; i < 5; i++) {
+            if (songInfo[i] != undefined) {
+                
+                    console.log("Artist: " + songInfo[i].artists[0].name);
+                    console.log("Song: " + songInfo[i].name);
+                    console.log("Album the song is from: " + songInfo[i].album.name);
+                    console.log("Preview Url: " + songInfo[i].preview_url);
+                
+           }
+        }
+    }
+    )
 }
+
 function movie(movieEntry) {
     if (movieEntry === "undefined") {
         movieEntry = "Mr. Nobody";
@@ -73,8 +88,7 @@ function movie(movieEntry) {
             var arrLength = JSON.parse(body).Ratings.length;
             for (i = 0; i < arrLength; i++) {
                 var rating = JSON.parse(body).Ratings[i];
-                if (rating.Source === "Rotten Tomatoes") 
-                {
+                if (rating.Source === "Rotten Tomatoes") {
                     console.log("The Rotten Tomatoes value is: " + JSON.stringify(JSON.parse(body).Ratings[i]));
 
                 }
@@ -92,14 +106,14 @@ function movie(movieEntry) {
 
 }
 
-function doWhatItSays(){
+function doWhatItSays() {
     //using fs node package takes text inside of random.txt and use it to call one of liri's commands.
     //open the file
-    fs.readFile('random.txt', 'utf8', function (err,data) {
+    fs.readFile('random.txt', 'utf8', function (err, data) {
         if (err) {
-          return console.log(err);
+            return console.log(err);
         }
         console.log(data);
-      });
+    });
 }
 
